@@ -5,11 +5,8 @@
 # Digital breaches (e.g., servers, computers) will affect more individuals than paper-based breaches.
 
 
-
 ## Load libraries 
 library(tidyverse) 
-
-
 
 
 ## load data
@@ -17,20 +14,13 @@ library(tidyverse)
 security <- read.csv("https://raw.githubusercontent.com/jossalene/CodingCult/refs/heads/master/security.csv")
 
 
-
-
 ## This displays all variable names in the data set
 security %>% 
   colnames()
 
 
-
-
-
 security_clean <- security %>% 
   select(Individuals_Affected , Type_of_Breach , Location_of_Breached_Information)
-
-
 
 
 ## Data Cleaning
@@ -39,12 +29,9 @@ security_clean %>%
   head()
 
 
-
-
 ## Displays a frequency table of the variable Type_of_Breach. Each row represents a different breach type and how many times it happened. 
 
 table(security_clean$Type_of_Breach)
-
 
 
 ## Overall distribution of individuals affected across all breaches
@@ -53,6 +40,7 @@ security_clean %>%
             min_affected = min (Individuals_Affected) ,
             P50_affected = median(Individuals_Affected),
             max_affected = max(Individuals_Affected) )
+
 
 ## Which breach types result in the largest impact?
 security_clean %>%
@@ -65,18 +53,16 @@ security_clean %>%
   ) %>%
   arrange(desc(avg_affected))
 
+
 # Interpretation:
 # Breaches categorized as "Loss" and "Unauthorized Access" show the highest average impact.
 # However, "Theft" remains the most frequent type of breach, indicating that while it occurs often,
 # it does not always result in the largest individual impact.
 
 
-
 ## Shows all the locations were the data was breached and combines duplicates
 
 unique(security_clean$Location_of_Breached_Information)
-
-
 
 
 ## Simplifying breach categories for analysis
@@ -86,10 +72,7 @@ security_clean <- security_clean %>%
     str_detect(Type_of_Breach, "Hacking") ~ "Hacking",
     str_detect(Type_of_Breach, "Loss") ~ "Loss",
     str_detect(Type_of_Breach, "Unauthorized") ~ "Unauthorized Access",
-    TRUE ~ "Other"
-  ))
-
-
+    TRUE ~ "Other" ))
 
 
 ## Comparing breach types by impact on individuals
@@ -100,10 +83,8 @@ security_clean %>%
     median_affected = median(Individuals_Affected),
     max_affected = max(Individuals_Affected),
     count = n()
-  ) %>%
-  arrange(desc(avg_affected))
-
-
+  ) %>% 
+arrange(desc(avg_affected))
 
 
 # Conclusion:
